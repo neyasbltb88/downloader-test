@@ -15,6 +15,7 @@ body {
     background-color: var(--dark_blue);
     color: var(--text_color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
