@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Downloader</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <form class="url_wrap" onsubmit="return false">
+            <span>URL: </span>
+            <input type="text">
+            <button>Скачать</button>
+        </form>
+
+        <div class="progress_wrap hide_progress">
+            <div class="progress_item">
+                <div class="progress_value">0%</div>
+                <div class="progress_name"></div>
+                <div class="progress_bar"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./download.js"></script>
+    <script src="./js.js"></script>
+</body>
+
+</html>
