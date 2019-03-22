@@ -21,7 +21,7 @@ body {
 }
 
 .container {
-    width: 600px;
+    width: 750px;
     height: 200px;
     border: 1px solid;
     border-color: var(--border_color);
@@ -162,4 +162,14 @@ body {
     100% {
         background-position: 55px 0;
     }
+}
+
+
+/* statistic */
+
+.statistic_wrap {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    transition: opacity 250ms ease-out;
 }
