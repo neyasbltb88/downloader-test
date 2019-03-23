@@ -44,6 +44,8 @@ class Downloader {
         this.isLoading = true;
 
         let xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
         xhr.responseType = 'blob';
         xhr.addEventListener('progress', this.xhrProgress.bind(this), false);
         xhr.addEventListener('load', this.xhrLoad.bind(this), false);
@@ -59,7 +61,7 @@ class Downloader {
         let remained_bytes = total - loaded;
         let remained = Math.ceil(remained_bytes / speed);
 
-        return `${remained} сек`
+        return Utils.TimeNormalizer(remained * 1000);
     }
 
     getSpeed(loaded) {
@@ -214,5 +216,70 @@ class Utils {
         };
 
         return result_obj;
+    }
+
+    static TimeNormalizer(time = 0, ms = false, template = false) {
+        if (typeof time !== 'number' || time < 0) return false;
+        let result_arr = [];
+        let duration = time / 1000;
+        let date_obj = {};
+
+        let units = {
+            day: 'д',
+            hour: 'ч',
+            min: 'мин',
+            sec: 'с',
+            msec: 'мс',
+        }
+
+        let divide = {
+            min: 60,
+            hour: 60 * 60,
+            day: 60 * 60 * 24
+        }
+
+        let begin = false;
+
+        function filter(unit, val) {
+            if (val <= 0 && !begin) return
+            begin = true;
+            result_arr.push({
+                'unit': units[unit],
+                'value': val
+            });
+        }
+
+        let day = Math.floor(duration / divide.day);
+        filter('day', day);
+        duration -= day * divide.day;
+
+        let hour = Math.floor(duration / divide.hour);
+        filter('hour', hour);
+        duration -= hour * divide.hour;
+
+        let min = Math.floor(duration / divide.min);
+        filter('min', min);
+
+        let sec = Math.floor(duration % 60);
+        if ((!ms && !begin) || sec > 0) {
+            begin = true;
+            filter('sec', sec);
+        }
+
+        let msec = Math.round(((duration % 60) - sec) * 1000);
+        date_obj.msec = msec;
+        if (ms || !begin) {
+            begin = true;
+            filter('msec', msec);
+        }
+
+        if (template) {
+            return result_arr;
+        } else {
+            return result_arr.reduce((sum, item, index) => {
+                return sum + `${(index > 0) ? ' ': ''}${item.value}${item.unit}`;
+            }, '');
+        }
+
     }
 }
